@@ -12,11 +12,10 @@ datasources:
     jsonData:
       # Estas son las configuraciones específicas de InfluxDB 2.x
       httpMode: POST
-      defaultBucket: estados_programa # Tu bucket principal definido en InfluxDB
-      organization: MiOrganizacion # Tu organización definida en InfluxDB
-      # version: Flux # No es necesaria si usas InfluxDB 2.x, ya que Flux es el por defecto
+      defaultBucket: estados_programa # Bucket principal definido en InfluxDB
+      organization: MiOrganizacion # Organización definida en InfluxDB
     secureJsonData:
-      # Aquí va el token de InfluxDB, ¡nunca lo expongas en texto plano si este archivo es público!
+      # Aquí va el token de InfluxDB
       # En Docker Compose, lo obtenemos de la variable de entorno, pero aquí se provisiona directamente.
       # Debes pegar el valor de tu DOCKER_INFLUXDB_INIT_ADMIN_TOKEN aquí.
       token: _ADZL7eFFOaugIzIqoDzXuL5_TkstXUrwmIdvsit9Xi_yHg1EDeUFz2d1QPtbGNkFCVnkHr679MwcdGYcxZVaw== # ¡REEMPLAZA CON TU TOKEN REAL!

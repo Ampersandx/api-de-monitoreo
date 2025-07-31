@@ -1,5 +1,4 @@
 import requests
-import json
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -11,18 +10,18 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
-# Reemplaza con el correo del destinatario
+
 destinatario = [] # 'vicctorxgames@email.com'  # ARREGLO PARA TENER MAS DE 1 CORREO
 asunto = "Alerta: Problema en el sistema"
 cuerpo = "Se ha detectado un problema en el sistema. Por favor, revisa los logs."
-remitente = os.environ.get("REMITENTE")
-contraseña = os.environ.get("PASSWORD")
+sender = os.environ.get("REMITENTE")
+password = os.environ.get("PASSWORD")
 smtp_host = 'smtp.gmail.com'
 smtp_puerto = 587
 
 
-print("remitente del .env: ", remitente)
-print("contraseña del .env: ", contraseña)
+print("remitente del .env: ", sender)
+print("contraseña del .env: ", password)
 
 
 def main():
@@ -32,8 +31,7 @@ def main():
              "email_destinatario": ["vicctox@gmail.com", "vicctorxgames@gmail.com"]},
             {"nombre": "FUN", "url": "http://127.0.0.1:8000/api3", "email_destinatario": ["vicctorx@gmail.com"]}]
 
-    esta_abajo = {api["nombre"]: False for api in data}
-    data_dashboard = {api["nombre"]: [] for api in data}
+    its_down = {api["nombre"]: False for api in data}
 
     influx_client = influxdb_client.InfluxDBClient(
     url= os.environ.get("INFLUXDB_URL"),
@@ -45,15 +43,15 @@ def main():
 
     while True:
         print("*********************NUEVA EJECUCION*************************")
-        apiDataExtractor(data, esta_abajo, influx_write_client)
+        apiDataExtractor(data, its_down, influx_write_client)
         time.sleep(10)
         print("**********************FIN EJECUCION**************************")
 
 
-def apiDataExtractor(data, esta_abajo, influx_write_client):
+def apiDataExtractor(data, its_down, influx_write_client):
 
     for api in data:
-        nombre = api["nombre"]
+        name = api["nombre"]
         try:
             response_api = requests.get(api["url"])
             json_api = response_api.json()
@@ -62,11 +60,11 @@ def apiDataExtractor(data, esta_abajo, influx_write_client):
             print("No existe conexion con la API")
             status_api = 500
 
-        print(f"El status de la {nombre} es : {status_api}")
+        print(f"El status de la {name} es : {status_api}")
 
         point = (
             influxdb_client.Point("http_status")
-            .tag("api_nombre", nombre)
+            .tag("api_nombre", name)
             .field("status", status_api)
             .time(datetime.utcnow())
         )
@@ -75,21 +73,21 @@ def apiDataExtractor(data, esta_abajo, influx_write_client):
         print(f"el punto de insercion es {point}")
 
         if status_api == 200:
-            print(f"entre al if de los 200: {nombre} {status_api}")
-            if esta_abajo[nombre]:
-                print(f"Estado de la api {api['nombre']} : {esta_abajo[nombre]} en el if 200")
-                esta_abajo[nombre] = False
-                print(f"Cambiando el estado de la api {api['nombre']} al: {esta_abajo[nombre]}")
+            print(f"entre al if de los 200: {name} {status_api}")
+            if its_down[name]:
+                print(f"Estado de la api {api['nombre']} : {its_down[name]} en el if 200")
+                its_down[name] = False
+                print(f"Cambiando el estado de la api {api['nombre']} al: {its_down[name]}")
 
         if status_api == 500:
             print(f"entre al if de los 500, la api fue {api['nombre']}, con status {status_api}, correos a enviar notificacion {api['email_destinatario']}")
             # evaluar si fue enviado el correo previamente, si fue enviado no entra al IF. Si no ha sido enviado debe entrar a enviar.
-            print(f"Estado del envio de correo: {esta_abajo[nombre]}, en la api: {api['nombre']}")
-            if not esta_abajo[nombre]:
-                print(f"Entre al if porque la wea es FALSE =? {esta_abajo[nombre]} en la api: {api['nombre']}")
-#                sendMail(remitente, contraseña, api, asunto, cuerpo)
-                esta_abajo[nombre] = True
-                print(f"Estado del correo enviado {esta_abajo[nombre]} en la api: {api['nombre']}")
+            print(f"Estado del envio de correo: {its_down[name]}, en la api: {api['nombre']}")
+            if not its_down[name]:
+                print(f"Entre al if porque la wea es FALSE =? {its_down[name]} en la api: {api['nombre']}")
+#                sendMail(sender, password, api, asunto, cuerpo)
+                its_down[name] = True
+                print(f"Estado del correo enviado {its_down[name]} en la api: {api['nombre']}")
 
 #Funcion que realiza el envio de correo
 #Entradas < 
@@ -107,16 +105,16 @@ def sendMail(sender_email, sender_password, api, subject, body_text):
 
     recipient_list = api["email_destinatario"]
     print("recipient_list es: ", recipient_list)
-    # Configuración del servidor SMTP (ejemplo para Gmail)
+    # Configuración del servidor SMTP
     smtp_server = "smtp.gmail.com"
     smtp_port = 587  # Puerto para TLS/STARTTLS
 
-    # Crea un objeto mensaje multipart (para soportar texto plano y HTML si lo deseas)
+    # Crea un objeto mensaje multipart
     msg = MIMEMultipart()
     msg['From'] = sender_email
     msg['Subject'] = subject
 
-    # Importante: para el encabezado 'To', debes unir la lista de destinatarios con comas
+    # Importante: para el encabezado 'To', unir la lista de destinatarios con comas
     msg['To'] = ", ".join(recipient_list)
 
     # Adjunta el cuerpo del correo como texto plano

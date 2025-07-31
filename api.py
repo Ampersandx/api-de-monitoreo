@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from typing import Union
 import random
 import time
 

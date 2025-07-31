@@ -15,5 +15,4 @@ Para detener el contenedor $docker compose down
 
 Esto detendrá y eliminará el contenedor, pero tus datos persistirán en el volumen grafana-storage.
 
-admin
-Claveparalatesis.
+
