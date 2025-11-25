@@ -12,8 +12,8 @@ import os
 load_dotenv()
 
 destinatario = [] # 'vicctorxgames@email.com'  # ARREGLO PARA TENER MAS DE 1 CORREO
-asunto = "Alerta: Problema en el sistema"
-cuerpo = "Se ha detectado un problema en el sistema. Por favor, revisa los logs."
+subject = "Alerta: Problema en el sistema"
+body_text = "Se ha detectado un problema en el sistema. Por favor, revisa los logs."
 sender = os.environ.get("REMITENTE")
 password = os.environ.get("PASSWORD")
 smtp_host = 'smtp.gmail.com'
@@ -85,7 +85,7 @@ def apiDataExtractor(data, its_down, influx_write_client):
             print(f"Estado del envio de correo: {its_down[name]}, en la api: {api['nombre']}")
             if not its_down[name]:
                 print(f"Entre al if porque la wea es FALSE =? {its_down[name]} en la api: {api['nombre']}")
-#                sendMail(sender, password, api, asunto, cuerpo)
+                sendMail(sender, password, api, subject, body_text)
                 its_down[name] = True
                 print(f"Estado del correo enviado {its_down[name]} en la api: {api['nombre']}")
 

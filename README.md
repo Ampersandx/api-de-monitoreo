@@ -15,4 +15,12 @@ Para detener el contenedor $docker compose down
 
 Esto detendrá y eliminará el contenedor, pero tus datos persistirán en el volumen grafana-storage.
 
+----- INICIO DEL PROYECTO -----
+
+- Iniciar Api's con fast api $ uvicorn api:app --reload
+
+- Tener docker abierto con los contenedores INFLUX Y GRAFANA
+
+- Iniciar el proyecto de monitoreo con $ python monitoreo.py
+
 
