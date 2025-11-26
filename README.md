@@ -17,10 +17,18 @@ Esto detendrá y eliminará el contenedor, pero tus datos persistirán en el vol
 
 ----- INICIO DEL PROYECTO -----
 
-- Iniciar Api's con fast api $ uvicorn api:app --reload
+- Iniciar Api's con fast api 
+$ uvicorn api:app --reload
 
 - Tener docker abierto con los contenedores INFLUX Y GRAFANA
 
-- Iniciar el proyecto de monitoreo con $ python monitoreo.py
+- Iniciar el proyecto de monitoreo desde la carpeta /monitoreo/... con
+ $ python monitoreo.py
+
+ Para ver dashboard en grafana de manera local:
+ http://localhost:3000
+
+ Para ver la base de datos influx:
+ http://localhost:8086
 
 
