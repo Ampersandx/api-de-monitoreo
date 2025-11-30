@@ -1,10 +1,11 @@
 {
+    "ciclo_monitoreo": 10,
     "apis": [
         {
             "nombre": "Unab app",
             "url": "http://127.0.0.1:8000/api1",
             "email_destinatario": [
-                "correo@deprueba.com"
+                "correodepruebatesis@gmail.com"
             ],
             "timeout": 5,
             "frecuencia": 10
@@ -13,8 +14,8 @@
             "nombre": "Intranet",
             "url": "http://127.0.0.1:8000/api2",
             "email_destinatario": [
-                "correo1@deprueba.com",
-                "correo@deprueba.com"
+                "vicctorxgames@gmail.com",
+                "correodepruebatesis@gmail.com"
             ],
             "timeout": 15,
             "frecuencia": 15
@@ -23,7 +24,7 @@
             "nombre": "Portal de pagos",
             "url": "http://127.0.0.1:8000/api3",
             "email_destinatario": [
-                "correo@deprueba.com"
+                "correodepruebatesis@gmail.com"
             ],
             "timeout": 20,
             "frecuencia": 20
