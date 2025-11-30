@@ -2,18 +2,18 @@
 
 Sistema de monitoreo automático para servicios y APIs.
 
-## 📋 Descripción
+##  Descripción
 
 Sistema de monitoreo en tiempo real que:
-- ✅ Consulta periódicamente APIs configuradas
-- ✅ Almacena datos históricos en InfluxDB
-- ✅ Visualiza métricas en dashboards de Grafana
-- ✅ Envía alertas por correo ante fallos
-- ✅ Se ejecuta completamente contenerizado
+-  Consulta periódicamente APIs configuradas
+-  Almacena datos históricos en InfluxDB
+-  Visualiza métricas en dashboards de Grafana
+-  Envía alertas por correo ante fallos
+-  Se ejecuta completamente contenerizado
 
 ---
 
-## 🚀 Inicio Rápido
+##  Inicio Rápido
 
 ### Requisitos Previos
 
@@ -82,10 +82,10 @@ docker-compose up -d
 ```
 
 Esto iniciará automáticamente:
-- ✅ InfluxDB (puerto 8086)
-- ✅ Grafana (puerto 3000)
-- ✅ APIs de prueba (puerto 8000)
-- ✅ Sistema de monitoreo
+-  InfluxDB (puerto 8086)
+-  Grafana (puerto 3000)
+-  APIs de prueba (puerto 8000)
+-  Sistema de monitoreo
 
 ### 5. Verificar estado
 
@@ -105,7 +105,7 @@ docker logs grafana -f
 
 ---
 
-## 🌐 Acceso a Servicios
+##  Acceso a Servicios
 
 Una vez levantados los contenedores:
 
@@ -117,7 +117,7 @@ Una vez levantados los contenedores:
 
 ---
 
-## 📊 Usar Grafana
+##  Usar Grafana
 
 1. Accede a http://localhost:3000
 2. Inicia sesión con las credenciales por defecto
@@ -126,7 +126,7 @@ Una vez levantados los contenedores:
 
 ---
 
-## 🛑 Detener los Contenedores
+##  Detener los Contenedores
 
 ```bash
 # Detener sin eliminar volúmenes (datos persisten)
@@ -144,7 +144,7 @@ docker-compose down -v
 
 ---
 
-## 📁 Estructura del Proyecto
+##  Estructura del Proyecto
 
 ```
 api-de-monitoreo/
@@ -167,7 +167,7 @@ api-de-monitoreo/
 
 ---
 
-## ⚙️ Configuración Avanzada
+##  Configuración Avanzada
 
 ### Cambiar tiempos de monitoreo
 
@@ -213,7 +213,7 @@ environment:
 
 ---
 
-## 🔧 Troubleshooting
+##  Troubleshooting
 
 ### Error: "Cannot connect to InfluxDB"
 - Verifica que InfluxDB esté corriendo: `docker logs influxdb`
@@ -236,7 +236,7 @@ docker logs api-monitoreo --tail=100
 
 ---
 
-## 📝 Notas Importantes
+##  Notas Importantes
 
 - Los datos de InfluxDB y Grafana se guardan en volúmenes Docker (persistentes)
 - El monitoreo se reinicia automáticamente si falla
@@ -245,41 +245,6 @@ docker logs api-monitoreo --tail=100
 
 ---
 
-## 📧 Contacto
+##  Contacto
 
 Para preguntas o reportes de problemas, consulta la documentación del proyecto.
-
-
------
-
-El archivo api.py contiene las apis de prueba para que el sistema de monitoreo pueda ejecutarse.
-
-Apis creadas con FastApi (Doc https://fastapi.tiangolo.com/)
-Instalacion de FastApi: $pip install "fastapi[all]"
-Con el parametro "all" se instala uvicorn de igual manera (Doc https://www.uvicorn.org/)
-Inicio de servidor: $uvicorn api:app
-
--------------------
-
-Para iniciar el contenedor debes dentro de la carpeta grafana-dashboard y ejecutar $docker compose up -d
-Para detener el contenedor $docker compose down
-
-Esto detendrá y eliminará el contenedor, pero tus datos persistirán en el volumen grafana-storage.
-
------ INICIO DEL PROYECTO -----
-
-- Iniciar Api's con fast api 
-$ uvicorn api:app --reload
-
-- Tener docker abierto con los contenedores INFLUX Y GRAFANA
-
-- Iniciar el proyecto de monitoreo desde la carpeta /monitoreo/... con
- $ python monitoreo.py
-
- Para ver dashboard en grafana de manera local:
- http://localhost:3000
-
- Para ver la base de datos influx:
- http://localhost:8086
-
-
