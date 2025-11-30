@@ -17,15 +17,22 @@ Sistema de monitoreo en tiempo real que:
 
 ### Requisitos Previos
 
+- Contar con el proyecto de manera local
 - Docker Engine
 - Docker Compose
 - Git
 
-### 1. Clonar o descargar el proyecto
+### 1. Ubicarse en el directorio raiz
+
+```bash
+ls
+```
+- Visualizar donde estas posicionado
 
 ```bash
 cd api-de-monitoreo
 ```
+- Navegar hasta el directorio
 
 ### 2. Configurar el archivo `.env`
 
@@ -242,9 +249,3 @@ docker logs api-monitoreo --tail=100
 - El monitoreo se reinicia automáticamente si falla
 - Las APIs de prueba responden con `{"status": 200}`
 - Los errores se registran en los logs de cada contenedor
-
----
-
-##  Contacto
-
-Para preguntas o reportes de problemas, consulta la documentación del proyecto.

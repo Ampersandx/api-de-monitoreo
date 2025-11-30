@@ -96,10 +96,10 @@ def main():
 
     influx_write_client = influx_client.write_api(write_options=SYNCHRONOUS)
 
-    logger.info("="*80)
+    logger.info("="*60)
     logger.info("SISTEMA DE MONITOREO DE APIs INICIADO")
     logger.info(f"Ciclo: {CICLO_MONITOREO}s | APIs: {len(data)} | Hora: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    logger.info("="*80)
+    logger.info("="*60)
     
     while True:
         try:
