@@ -35,7 +35,7 @@ async def internal_status_api1():
 
 @app.get("/api2")
 async def internal_status_api2():
-    status_code = get_status_code()
+    status_code = 200
     return {"status": (status_code)}
 
 

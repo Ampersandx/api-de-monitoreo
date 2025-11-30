@@ -1,20 +1,17 @@
-# Usa una imagen base de Python
 FROM python:3.11.4
 
-# Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Copia el archivo de requisitos al contenedor
+# Instalar dependencias
 COPY requirements.txt .
-
-# Instala las dependencias
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copia el código de la aplicación al contenedor
+# Copiar código y configuración
 COPY monitoreo.py .
+COPY config.json .
 
-# Expone el puerto en el que se ejecutará la aplicación
+# Exponer el puerto 8000
 EXPOSE 8000
 
-# Define el comando para ejecutar la aplicación
+# Ejecutar monitoreo
 CMD ["python", "monitoreo.py"]

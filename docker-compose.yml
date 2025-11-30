@@ -1,6 +1,29 @@
 version: '3.8'
 
 services:
+  influxdb:
+    image: influxdb:2.7.12-alpine
+    container_name: influxdb
+    restart: unless-stopped
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdb-storage:/var/lib/influxdb2
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin_influx
+      - DOCKER_INFLUXDB_INIT_PASSWORD=admin_influx
+      - DOCKER_INFLUXDB_INIT_ORG=MiOrganizacion
+      - DOCKER_INFLUXDB_INIT_BUCKET=estados_programa
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=_ADZL7eFFOaugIzIqoDzXuL5_TkstXUrwmIdvsit9Xi_yHg1EDeUFz2d1QPtbGNkFCVnkHr679MwcdGYcxZVaw==
+    networks:
+      - monitoring-network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8086/health" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
@@ -12,30 +35,13 @@ services:
       - ./grafana-provisioning/datasources:/etc/grafana/provisioning/datasources
     environment:
       - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=Clavepalatesis.
+      - GF_SECURITY_ADMIN_PASSWORD=Claveparalatesis.
       - GF_INSTALL_PLUGINS=grafana-piechart-panel
     networks:
-      - monitoring-network # Ambos servicios usarán esta red
-
-  influxdb:
-    image: influxdb:2.7.12-alpine
-    container_name: influxdb
-    restart: unless-stopped
-    ports:
-      - "8086:8086" # Puerto por defecto de InfluxDB
-    volumes:
-      - influxdb-storage:/var/lib/influxdb2 # Volumen para datos persistentes de InfluxDB
-      - ./influxdb-init:/docker-entrypoint-initdb.d
-    environment:
-      # Variables de entorno para la configuración inicial de InfluxDB 2.x
-      - DOCKER_INFLUXDB_INIT_MODE=setup
-      - DOCKER_INFLUXDB_INIT_USERNAME=admin_influx
-      - DOCKER_INFLUXDB_INIT_PASSWORD=admin_influx
-      - DOCKER_INFLUXDB_INIT_ORG=MiOrganizacion
-      - DOCKER_INFLUXDB_INIT_BUCKET=estados_programa # bucket principal
-      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=_ADZL7eFFOaugIzIqoDzXuL5_TkstXUrwmIdvsit9Xi_yHg1EDeUFz2d1QPtbGNkFCVnkHr679MwcdGYcxZVaw==
-    networks:
-      - monitoring-network # Ambos servicios usarán esta red
+      - monitoring-network
+    depends_on:
+      influxdb:
+        condition: service_healthy
 
   api:
     build:
@@ -49,6 +55,8 @@ services:
       - monitoring-network
     env_file:
       - .env
+    depends_on:
+      - influxdb
 
   api-monitoreo:
     build:
@@ -61,17 +69,17 @@ services:
     env_file:
       - .env
     depends_on:
-      - influxdb
+      influxdb:
+        condition: service_healthy
+      api:
+        condition: service_started
 
 volumes:
   grafana-storage:
-    external: true # Indica que este volumen ya ha sido creado previamente
+    driver: local
   influxdb-storage:
-    # Nuevo volumen para InfluxDB
-    name: influxdb-storage # Nombre del volumen
-    driver: local # Tipo de driver
+    driver: local
 
 networks:
   monitoring-network:
-    # Definición de la red compartida
     driver: bridge
