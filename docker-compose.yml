@@ -8,7 +8,8 @@ services:
     ports:
       - "8086:8086"
     volumes:
-      - influxdb-storage:/var/lib/influxdb2
+      - ./influxdb-storage:/var/lib/influxdb2
+      - ./influxdb-init:/docker-entrypoint-initdb.d
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
       - DOCKER_INFLUXDB_INIT_USERNAME=admin_influx
@@ -19,7 +20,7 @@ services:
     networks:
       - monitoring-network
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8086/health" ]
+      test: [ "CMD", "influx", "ping" ]
       interval: 5s
       timeout: 3s
       retries: 5
@@ -31,12 +32,13 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - grafana-storage:/var/lib/grafana
+      - ./grafana-storage:/var/lib/grafana
       - ./grafana-provisioning/datasources:/etc/grafana/provisioning/datasources
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=Claveparalatesis.
       - GF_INSTALL_PLUGINS=grafana-piechart-panel
+      - INFLUXDB_TOKEN=_ADZL7eFFOaugIzIqoDzXuL5_TkstXUrwmIdvsit9Xi_yHg1EDeUFz2d1QPtbGNkFCVnkHr679MwcdGYcxZVaw==
     networks:
       - monitoring-network
     depends_on:
@@ -57,6 +59,11 @@ services:
       - .env
     depends_on:
       - influxdb
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8000/docs" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
 
   api-monitoreo:
     build:
@@ -72,7 +79,7 @@ services:
       influxdb:
         condition: service_healthy
       api:
-        condition: service_started
+        condition: service_healthy
 
 volumes:
   grafana-storage:

@@ -1,21 +1,23 @@
 apiVersion: 1
 
 datasources:
-  - name: influxdb # Nombre visible en Grafana
+  - name: monitoreodb # Nombre visible en Grafana
     type: influxdb
     access: proxy
     url: http://influxdb:8086 # ¡Importante! Usa el nombre del servicio Docker para InfluxDB
-    orgId: 1
-    version: 2
-    isDefault: true # Opcional: Hacer esta la fuente de datos por defecto
-    editable: true # Opcional: Permitir editarla desde la UI de Grafana (cambiar a false para solo provisionar)
+#    orgId: 1
+#    version: 2
+#    isDefault: true # Opcional: Hacer esta la fuente de datos por defecto
+#    editable: true # Opcional: Permitir editarla desde la UI de Grafana (cambiar a false para solo provisionar)
     jsonData:
+      dbName: estados_programa
+      httpHeaderName1: 'Authorization'
       # Estas son las configuraciones específicas de InfluxDB 2.x
-      httpMode: POST
-      defaultBucket: estados_programa # Bucket principal definido en InfluxDB
-      organization: MiOrganizacion # Organización definida en InfluxDB
+#      httpMode: POST
+#      defaultBucket: estados_programa # Bucket principal definido en InfluxDB
+#      organization: MiOrganizacion # Organización definida en InfluxDB
     secureJsonData:
       # Aquí va el token de InfluxDB
       # En Docker Compose, lo obtenemos de la variable de entorno, pero aquí se provisiona directamente.
       # Debes pegar el valor de tu DOCKER_INFLUXDB_INIT_ADMIN_TOKEN aquí.
-      token: _ADZL7eFFOaugIzIqoDzXuL5_TkstXUrwmIdvsit9Xi_yHg1EDeUFz2d1QPtbGNkFCVnkHr679MwcdGYcxZVaw== # ¡REEMPLAZA CON TU TOKEN REAL!
+      httpHeaderValue1: 'Token ${INFLUXDB_TOKEN}' # ¡REEMPLAZA CON TU TOKEN REAL!

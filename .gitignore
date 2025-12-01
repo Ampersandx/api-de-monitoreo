@@ -208,3 +208,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local Storage
+grafana-storage/
+influxdb-storage/
