@@ -74,6 +74,11 @@ services:
       - monitoring-network
     env_file:
       - .env
+    environment:
+      - TZ=America/Santiago
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     depends_on:
       influxdb:
         condition: service_healthy
