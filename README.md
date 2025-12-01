@@ -42,9 +42,9 @@ Asegúrate de que contiene:
 REMITENTE=tu_email@gmail.com
 PASSWORD=tu_contraseña_o_token
 INFLUXDB_URL=http://influxdb:8086
-INFLUXDB_TOKEN=_ADZL7eFFOaugIzIqoDzXuL5_TkstXUrwmIdvsit9Xi_yHg1EDeUFz2d1QPtbGNkFCVnkHr679MwcdGYcxZVaw==
-INFLUXDB_ORG=MiOrganizacion
-INFLUXDB_BUCKET=estados_programa
+INFLUXDB_TOKEN=token_influxdb
+INFLUXDB_ORG=nombre_organizacion
+INFLUXDB_BUCKET=nombre_bucket
 USERGRAFANA=admin
 PASSGRAFANA=Claveparalatesis.
 ```
@@ -62,21 +62,18 @@ Edita el archivo `monitoreo/config.json`:
       "url": "http://api:8000/api1",
       "email_destinatario": ["correo@example.com"],
       "timeout": 10,
-      "frecuencia": 10
     },
     {
       "nombre": "NombreAPI2",
       "url": "http://api:8000/api2",
       "email_destinatario": ["correo@example.com"],
       "timeout": 10,
-      "frecuencia": 10
     },
     {
       "nombre": "NombreAPI3",
       "url": "http://api:8000/api3",
       "email_destinatario": ["correo@example.com"],
       "timeout": 10,
-      "frecuencia": 10
     }
   ]
 }
