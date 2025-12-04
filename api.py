@@ -29,18 +29,18 @@ def get_status_code():
 
 @app.get("/api1")
 async def internal_status_api1():
-    status_code = 200
-    return {"status": (status_code), "Nombre": "pepito"}
+    status_code = get_status_code()
+    return {"status": (status_code), "Nombre": "Pepito"}
 
 
 @app.get("/api2")
 async def internal_status_api2():
-    status_code = 200
+    status_code = get_status_code()
     return {"status": (status_code)}
 
 
 @app.get("/api3")
 async def internal_status_api3():
-    status_code = 200
+    status_code = get_status_code()
     return {"status": (status_code)}
 

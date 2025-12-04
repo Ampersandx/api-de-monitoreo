@@ -17,15 +17,22 @@ Sistema de monitoreo en tiempo real que:
 
 ### Requisitos Previos
 
+- Contar con el proyecto de manera local
 - Docker Engine
 - Docker Compose
 - Git
 
-### 1. Clonar o descargar el proyecto
+### 1. Ubicarse en el directorio raiz
+
+```bash
+ls
+```
+- Visualizar donde estas posicionado
 
 ```bash
 cd api-de-monitoreo
 ```
+- Navegar hasta el directorio
 
 ### 2. Configurar el archivo `.env`
 
@@ -35,9 +42,9 @@ Asegúrate de que contiene:
 REMITENTE=tu_email@gmail.com
 PASSWORD=tu_contraseña_o_token
 INFLUXDB_URL=http://influxdb:8086
-INFLUXDB_TOKEN=_ADZL7eFFOaugIzIqoDzXuL5_TkstXUrwmIdvsit9Xi_yHg1EDeUFz2d1QPtbGNkFCVnkHr679MwcdGYcxZVaw==
-INFLUXDB_ORG=MiOrganizacion
-INFLUXDB_BUCKET=estados_programa
+INFLUXDB_TOKEN=token_influxdb
+INFLUXDB_ORG=nombre_organizacion
+INFLUXDB_BUCKET=nombre_bucket
 USERGRAFANA=admin
 PASSGRAFANA=Claveparalatesis.
 ```
@@ -55,21 +62,18 @@ Edita el archivo `monitoreo/config.json`:
       "url": "http://api:8000/api1",
       "email_destinatario": ["correo@example.com"],
       "timeout": 10,
-      "frecuencia": 10
     },
     {
       "nombre": "NombreAPI2",
       "url": "http://api:8000/api2",
       "email_destinatario": ["correo@example.com"],
       "timeout": 10,
-      "frecuencia": 10
     },
     {
       "nombre": "NombreAPI3",
       "url": "http://api:8000/api3",
       "email_destinatario": ["correo@example.com"],
       "timeout": 10,
-      "frecuencia": 10
     }
   ]
 }
@@ -242,9 +246,3 @@ docker logs api-monitoreo --tail=100
 - El monitoreo se reinicia automáticamente si falla
 - Las APIs de prueba responden con `{"status": 200}`
 - Los errores se registran en los logs de cada contenedor
-
----
-
-##  Contacto
-
-Para preguntas o reportes de problemas, consulta la documentación del proyecto.

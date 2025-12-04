@@ -1,5 +1,8 @@
 FROM python:3.11.4
 
+ENV TZ=America/Santiago
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 WORKDIR /app
 
 # Instalar dependencias
