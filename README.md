@@ -39,14 +39,16 @@ cd api-de-monitoreo
 Asegúrate de que contiene:
 
 ```env
-REMITENTE=tu_email@gmail.com
-PASSWORD=tu_contraseña_o_token
+PASSWORD=
+REMITENTE=
+INFLUXDB_USERNAME=
+INFLUXDB_PASSWORD=
+INFLUXDB_TOKEN=
 INFLUXDB_URL=http://influxdb:8086
-INFLUXDB_TOKEN=token_influxdb
-INFLUXDB_ORG=nombre_organizacion
-INFLUXDB_BUCKET=nombre_bucket
-USERGRAFANA=admin
-PASSGRAFANA=Claveparalatesis.
+INFLUXDB_ORG=
+INFLUXDB_BUCKET=
+USERGRAFANA=
+PASSGRAFANA=
 ```
 
 ### 3. Configurar APIs a monitorear
@@ -115,8 +117,8 @@ Una vez levantados los contenedores:
 
 | Servicio | URL | Usuario/Contraseña |
 |---|---|---|
-| **Grafana** | http://localhost:3000 | admin / Claveparalatesis. |
-| **InfluxDB** | http://localhost:8086 | admin_influx / admin_influx |
+| **Grafana** | http://localhost:3000 | USERGRAFANA / PASSGRAFANA |
+| **InfluxDB** | http://localhost:8086 | INFLUXDB_USERNAME / INFLUXDB_PASSWORD |
 | **APIs de prueba** | http://localhost:8000/docs | - |
 
 ---
@@ -124,7 +126,7 @@ Una vez levantados los contenedores:
 ##  Usar Grafana
 
 1. Accede a http://localhost:3000
-2. Inicia sesión con las credenciales por defecto
+2. Inicia sesión con las credenciales
 3. El datasource de InfluxDB está preconfigurado
 4. Crea dashboards para visualizar el estado de tus APIs
 
@@ -153,16 +155,16 @@ docker-compose down -v
 ```
 api-de-monitoreo/
 ├── api.py                          # APIs de prueba con FastAPI
-├── Dockerfile                       # Para contenedor de APIs
-├── requirements.txt                 # Dependencias de FastAPI
-├── docker-compose.yml               # Orquestación de contenedores
-├── .env                             # Variables de entorno
+├── Dockerfile                      # Para contenedor de APIs
+├── requirements.txt                # Dependencias de FastAPI
+├── docker-compose.yml              # Orquestación de contenedores
+├── .env                            # Variables de entorno
 ├── .gitignore
 ├── README.md
 ├── monitoreo/
 │   ├── monitoreo.py                # Sistema de monitoreo (main)
 │   ├── Dockerfile                  # Para contenedor de monitoreo
-│   ├── requirements.txt             # Dependencias de Python
+│   ├── requirements.txt            # Dependencias de Python
 │   ├── config.json                 # Configuración de APIs a monitorear
 └── grafana-provisioning/
     └── datasources/
@@ -175,7 +177,7 @@ api-de-monitoreo/
 
 ### Cambiar tiempos de monitoreo
 
-En `monitoreo/config.json`, ajusta `timeout` y `frecuencia`:
+En `monitoreo/config.json`, ajusta `timeout`:
 
 ```json
 {
@@ -183,7 +185,6 @@ En `monitoreo/config.json`, ajusta `timeout` y `frecuencia`:
   "url": "http://api:8000/critical",
   "email_destinatario": ["admin@example.com"],
   "timeout": 5,        // Falla si no responde en 5s
-  "frecuencia": 5      // Consultar cada 5 segundos
 }
 ```
 
@@ -203,16 +204,6 @@ En `monitoreo/config.json`, ajusta `timeout` y `frecuencia`:
   "admin2@example.com",
   "operaciones@example.com"
 ]
-```
-
-### Cambiar credenciales de Grafana
-
-Edita el `docker-compose.yml`:
-
-```yaml
-environment:
-  - GF_SECURITY_ADMIN_USER=tu_usuario
-  - GF_SECURITY_ADMIN_PASSWORD=tu_contraseña
 ```
 
 ---
@@ -244,5 +235,5 @@ docker logs api-monitoreo --tail=100
 
 - Los datos de InfluxDB y Grafana se guardan en volúmenes Docker (persistentes)
 - El monitoreo se reinicia automáticamente si falla
-- Las APIs de prueba responden con `{"status": 200}`
+- Las APIs de prueba responden con `{"status": 200}` y en ocasiones un `{"status": 500}`
 - Los errores se registran en los logs de cada contenedor
