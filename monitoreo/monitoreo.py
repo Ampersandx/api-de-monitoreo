@@ -32,7 +32,7 @@ INFLUXDB_BUCKET = os.environ.get("INFLUXDB_BUCKET")
 MAX_SMTP_RETRIES = 3
 RETRY_DELAY = 5
 CONFIG_FILE = "config.json"
-CICLO_MONITOREO = 10
+CICLO_MONITOREO = 10 # 10 segundos por defecto, parametro configurable.
 
 
 def cargar_configuracion_apis(archivo_config):
@@ -53,7 +53,6 @@ def cargar_configuracion_apis(archivo_config):
             config = json.load(f)
             logger.info("Configuración cargada desde %s", archivo_config)
             
-            # Ciclo por defecto de 10 segundos
             if "ciclo_monitoreo" in config:
                 CICLO_MONITOREO = int(config["ciclo_monitoreo"])
                 logger.info("Ciclo de monitoreo: %d segundos", CICLO_MONITOREO)

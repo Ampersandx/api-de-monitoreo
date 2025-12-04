@@ -3,7 +3,7 @@
     "apis": [
         {
             "nombre": "Unab app",
-            "url": "http://api:8000/api1",
+            "url": "http://api:8000/Unab APP",
             "email_destinatario": [
                 "correodepruebatesis@gmail.com"
             ],
@@ -11,16 +11,15 @@
         },
         {
             "nombre": "Intranet",
-            "url": "http://api:8000/api2",
+            "url": "http://api:8000/Intranet",
             "email_destinatario": [
-                "vicctorxgames@gmail.com",
                 "correodepruebatesis@gmail.com"
             ],
             "timeout": 15
         },
         {
             "nombre": "Portal de pagos",
-            "url": "http://api:8000/api3",
+            "url": "http://api:8000/Portal de pagos",
             "email_destinatario": [
                 "correodepruebatesis@gmail.com"
             ],

@@ -11,11 +11,11 @@ services:
       - ./influxdb-storage:/var/lib/influxdb2
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
-      - DOCKER_INFLUXDB_INIT_USERNAME=admin_influx
-      - DOCKER_INFLUXDB_INIT_PASSWORD=admin_influx
-      - DOCKER_INFLUXDB_INIT_ORG=MiOrganizacion
-      - DOCKER_INFLUXDB_INIT_BUCKET=estados_programa
-      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=_ADZL7eFFOaugIzIqoDzXuL5_TkstXUrwmIdvsit9Xi_yHg1EDeUFz2d1QPtbGNkFCVnkHr679MwcdGYcxZVaw==
+      - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUXDB_USERNAME}
+      - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUXDB_PASSWORD}
+      - DOCKER_INFLUXDB_INIT_ORG=${INFLUXDB_ORG}
+      - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUXDB_BUCKET}
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB_TOKEN}
     networks:
       - monitoring-network
     healthcheck:
@@ -34,10 +34,10 @@ services:
       - ./grafana-storage:/var/lib/grafana
       - ./grafana-provisioning/datasources:/etc/grafana/provisioning/datasources
     environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=Claveparalatesis.
+      - GF_SECURITY_ADMIN_USER=${USERGRAFANA}
+      - GF_SECURITY_ADMIN_PASSWORD=${PASSGRAFANA}
       - GF_INSTALL_PLUGINS=grafana-piechart-panel
-      - INFLUXDB_TOKEN=_ADZL7eFFOaugIzIqoDzXuL5_TkstXUrwmIdvsit9Xi_yHg1EDeUFz2d1QPtbGNkFCVnkHr679MwcdGYcxZVaw==
+      - INFLUXDB_TOKEN=${INFLUXDB_TOKEN}
     networks:
       - monitoring-network
     depends_on:
